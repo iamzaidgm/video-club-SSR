@@ -6,7 +6,8 @@ router.post('/', controller.create); //Crear
 
 router.get('/', controller.list); //Leer
 
-router.get('/:id', controller.index); //Leer
+// El mismo metodo de list pero con paginacion, se usa el "?" porque :page es opcional
+router.get('/list/:page?', controller.index); //Leer
 
 router.put('/:id', controller.replace); //Reemplazar
 

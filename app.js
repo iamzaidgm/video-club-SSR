@@ -3,12 +3,28 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const directorsRouter = require('./routes/directors');
 
 var app = express();
+//  mongodb://<dbUser>?:<dbPass>?@<url>:zport>/<dbName>
+const url = "mongodb://localhost:27017/video-club";
+mongoose.connect(url);
+
+const db = mongoose.connection;
+
+// Se conecta
+db.on('open', () => {
+  console.log("Connection OK");
+});
+
+// No se conecta
+db.on('error', () => {
+  console.log("Connection Failed");
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
