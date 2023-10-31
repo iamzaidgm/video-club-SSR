@@ -8,6 +8,11 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const directorsRouter = require('./routes/directors');
+const moviesRouter = require('./routes/movies');
+const actorsRouter = require('./routes/actors');
+const genresRouter = require('./routes/genres');
+const membersRouter = require('./routes/members');
+const copiesRouter = require('./routes/copies');
 
 var app = express();
 //  mongodb://<dbUser>?:<dbPass>?@<url>:zport>/<dbName>
@@ -39,6 +44,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/directors', directorsRouter);
+app.use('/movies', moviesRouter);
+app.use('/actors', actorsRouter);
+app.use('/genres', genresRouter);
+app.use('/members', membersRouter);
+app.use('/copies', copiesRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/directors');
+const controller = require('../controllers/genres');
 
 router.post('/', controller.create); //Crear
 
-// El mismo metodo de list pero con paginacion, se usa el "?" porque :page es opcional
 router.get('/list/:page?', controller.list); //Leer
 
-router.get('/:id', controller.index);
+router.get('/:id', controller.index); //Leer
 
 router.put('/:id', controller.replace); //Reemplazar
 
