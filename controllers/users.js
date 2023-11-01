@@ -1,18 +1,23 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 //post
-function create(req, res, next) {
+async function create(req, res, next) {
     const name = req.body.name;
     const lastName = req.body.lastName;
     const email = req.body.email;
     const password = req.body.password;
+    let salt = await bcrypt.genSalt(10);
+
+    const passwordHash = await bcrypt.hash(password, salt);
 
     let user = new User({
         name: name,
         lastName: lastName,
         email: email,
-        password: password
+        password: passwordHash,
+        salt: salt
     });
 
     user.save()
