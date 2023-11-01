@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 // Schema es la estructura de la coleccion en la base de datos
 // Se pone guion base en el nombre de las propiedades para escodnerlas y ademas que encaje con la clase
@@ -31,4 +32,5 @@ class Director {
 }
 
 schema.loadClass(Director);
+schema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Director', schema);

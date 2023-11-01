@@ -5,7 +5,7 @@ const Genre = require('../models/genre');
 function create(req, res, next) {
     const description = req.body.description;
 
-    let genre = new genre({
+    let genre = new Genre({
         description: description
     });
 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const schema = mongoose.Schema({
     _number: Number,
@@ -59,4 +60,5 @@ class Copy {
 }
 
 schema.loadClass(Copy);
+schema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Copy', schema);

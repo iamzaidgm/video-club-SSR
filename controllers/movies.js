@@ -2,30 +2,17 @@ const express = require('express');
 const Movie = require('../models/movie');
 const Director = require('../models/director');
 const Genre = require('../models/genre');
-const Actor = require('../models/actor');
 
-async function create(req, res, next) {
+function create(req, res, next) {
     const title = req.body.title;
     const genreId = req.body.genreId;
     const directorId = req.body.directorId;
-    const castIds = req.body.castIds;
-
-    let genre = Genre.findOne({ "_id" : genreId });
-
-    let director = await Director.findOne({ "_id" : directorId });
-
-    let cast = [];
-
-    for (let i = 0; i < castIds.length; i++) {
-        let actor = Actor.findOne({ "_id" : castIds[i] });
-
-        cast.push(actor);
-    }
+    const cast = req.body.cast;
 
     let movie = new Movie({
         title: title,
-        genre: genre,
-        director: director,
+        genre: genreId,
+        director: directorId,
         cast: cast
     });
 
@@ -44,8 +31,9 @@ function list(req, res, next) {
 
     const options = {
         page: page,
-        limit: 5
-    }
+        limit: 5,
+        populate: ["_director", "_genre", "_cast"]
+    };
 
     Movie.paginate({}, options)
          .then(objects => res.status(200).json({
@@ -60,8 +48,8 @@ function list(req, res, next) {
 function index(req, res, next) {
     const id = req.params.id;
 
-    Movie.findOne({ "_id" : id })
-        then(object => res.status(200).json({
+    Movie.findOne({ "_id" : id }).populate(["_director", "_genre", "_cast"])
+        .then(object => res.status(200).json({
             message: `Information of the Movie with id ${id}`,
             obj: object
         })).catch(ex => res.status(500).json({
@@ -76,6 +64,7 @@ function replace(req, res, next) {
     const title = req.body.title ? req.body.title : "";
     const genreId = req.body.genreId;
     const directorId = req.body.directorId;
+    const cast = req.body.cast ? req.body.cast : [];
 
     let director;
     let genre;
@@ -93,7 +82,8 @@ function replace(req, res, next) {
     let movie = new Movie({
         _title: title,
         _genre: genre,
-        _director: director
+        _director: director,
+        _cast: cast
     });
 
     Movie.findOneAndUpdate({ "_id" : id }, movie, { new : true })
@@ -112,21 +102,26 @@ function update(req, res, next) {
     const title = req.body.title;
     const genreId = req.body.genreId;
     const directorId = req.body.directorId;
+    const cast = req.body.cast;
 
     let director, genre;
     let movie = new Object();
 
     if (title) movie._title = title;
+    
     if (genreId) {
         genre = Genre.findOne({ "_id" : genreId });
 
         movie._genre = genre;
     }
+    
     if (directorId) {
         director = Director.findOne({ "_id" : directorId });
 
         movie._director = director;
     }
+
+    if (cast) movie._cast = cast;
 
     Movie.findOneAndUpdate({ "_id" : id }, movie)
          .then(object => res.status(200).json({

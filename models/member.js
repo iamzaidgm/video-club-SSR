@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const schema = mongoose.Schema({
     _name: String,
@@ -57,4 +58,5 @@ class Member {
 }
 
 schema.loadClass(Member);
+schema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Member', schema);
