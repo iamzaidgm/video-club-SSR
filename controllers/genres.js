@@ -1,25 +1,25 @@
 const express = require('express');
 const Genre = require('../models/genre');
 
-//post
 function create(req, res, next) {
     const description = req.body.description;
+    const status = req.body.status;
 
     let genre = new Genre({
-        description: description
+        description: description,
+        status: status
     });
 
     genre.save()
          .then(object => res.status(200).json({
-            message: "New Genre created and saved",
+            message: "Nuevo género creado y guardado",
             obj: object
          })).catch(ex => res.status(500).json({
-            message: "Genre could not be created or saved",
+            message: "No se pudo crear ni guardar el género.",
             obj: ex
          }));
 }
 
-//get
 function list(req, res, next) {
     let page = req.params.page ? req.params.page : 1;
 
@@ -30,29 +30,27 @@ function list(req, res, next) {
 
     Genre.paginate({}, options)
          .then(objects => res.status(200).json({
-            message: "Genres list",
+            message: "Lista de géneros",
             obj: objects
          })).catch(ex => res.status(500).json({
-            message: "Genres list could not be showed",
+            message: "No se pudo mostrar la lista de géneros",
             obj: ex
          }));
 }
 
-//get
 function index(req, res, next) {
     const id = req.params.id;
 
     Genre.findOne({ "_id" : id })
          .then(object => res.status(200).json({
-            message: `Information of the Genre with id ${id}`,
+            message: `Información del género con el id ${id}`,
             obj: object
          })).catch(ex => res.status(500).json({
-            message: `Could not show the information of the Genre with id ${id}`,
+            message: `No se pudo mostrar la información del género con el id. ${id}`,
             obj: ex
          }));
 }
 
-//put
 function replace(req, res, next) {
     const id = req.params.id;
 
@@ -64,15 +62,14 @@ function replace(req, res, next) {
 
     Genre.findOneAndUpdate({ "_id" : id }, genre, { new : true })
          .then(object => res.status(200).json({
-            message: "Genre replace correctly",
+            message: "Género reemplazar correctamente",
             obj: object
          })).catch(ex => res.status(500).json({
-            message: "Could not replace Genre correctly",
+            message: "No se pudo reemplazar el género correctamente",
             obj: ex
          }));
 }
 
-//patch
 function update(req, res, next) {
     const id = req.params.id;
 
@@ -84,33 +81,25 @@ function update(req, res, next) {
 
     Genre.findOneAndUpdate({ "_id" : id }, genre)
          .then(object => res.status(200).json({
-            message: "Genre updated correctly",
+            message: "Género actualizado correctamente",
             obj: object
          })).catch(ex => res.status(500).json({
-            message: "Could not update Genre correctly",
+            message: "No se pudo actualizar el género correctamente",
             obj: ex
          }));
 }
 
-//delete
 function destroy(req, res, next) {
     const id = req.params.id;
 
     Genre.findOneAndRemove({ "_id" : id })
          .then(object => res.status(200).json({
-            message: "Genre deleted correctly",
+            message: "Género eliminado correctamente",
             obj: object
          })).catch(ex => res.status(500).json({
-            message: "Could not delete Genre correctly",
+            message: "No se pudo eliminar el género correctamente",
             obj: ex
          }));
 }
 
-module.exports = {
-    create,
-    list,
-    index,
-    replace,
-    update,
-    destroy
-}
+module.exports = {create, list, index, replace, update, destroy}

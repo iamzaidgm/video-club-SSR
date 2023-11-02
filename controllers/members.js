@@ -1,7 +1,6 @@
 const express = require('express');
 const Member = require('../models/member');
 
-//post
 function create(req, res, next) {
     const name = req.body.name;
     const lastName = req.body.lastName;
@@ -17,15 +16,14 @@ function create(req, res, next) {
 
     member.save()
           .then(object => res.status(200).json({
-            message: "New Member created and saved",
+            message: "Nuevo socio creado y guardado",
             obj: object
           })).catch(ex => res.status(500).json({
-            message: "Memeber could not be created or saved",
+            message: "No se pudo crear ni guardar el socio",
             obj: ex
           }));
 }
 
-//get
 function list(req, res, next) {
     let page = req.params.page ? req.params.page : 1;
 
@@ -36,29 +34,27 @@ function list(req, res, next) {
 
     Member.paginate({}, options)
           .then(objects => res.status(200).json({
-            message: "Members list",
+            message: "Lista de socios",
             obj: objects
           })).catch(ex => res.status(500).json({
-            message: "Members list could not be showed",
+            message: "No se pudo mostrar la lista de socios",
             obj: ex
           }));
 }
 
-//get
 function index(req, res, next) {
     const id = req.params.id;
 
     Member.findOne({ "_id" : id })
           .then(object => res.status(200).json({
-            message: `Information of the Member with id ${id}`,
+            message: `Información del socio con el id ${id}`,
             obj: object
           })).catch(ex => res.status(500).json({
-            message: `Could not show the information of the Member with id ${id}`,
+            message: `No se pudo mostrar la información del socio con el id. ${id}`,
             obj: ex
           }));
 }
 
-//put
 function replace(req, res, next) {
     const id = req.params.id;
 
@@ -76,15 +72,14 @@ function replace(req, res, next) {
 
     Member.findOneAndUpdate({ "_id" : id }, member, { new : true })
           .then(object => res.status(200).json({
-            message: "Member replaced correctly",
+            message: "Socio reemplazado correctamente",
             obj: object
           })).catch(ex => res.status(500).json({
-            message: "Could not replace Member correctly",
+            message: "No se pudo reemplazar al socio correctamente",
             obj: ex
           }));
 }
 
-//patch
 function update(req, res, next) {
     const id = req.params.id
 
@@ -102,10 +97,10 @@ function update(req, res, next) {
 
     Member.findOneAndUpdate({ "_id" : id }, member)
           .then(object => res.status(200).json({
-            message: "Member updated correctly",
+            message: "Socio actualizado correctamente",
             obj: object
           })).catch(ex => res.status(500).json({
-            message: "Could not update Member correctly",
+            message: "No se pudo actualizar socio correctamente",
             obj: ex
           }));
 }
@@ -115,19 +110,12 @@ function destroy(req, res, next) {
 
     Member.findOneAndRemove({ "_id" : id })
           .then(object => res.status(200).json({
-            message: "Member deleted correctly",
+            message: "Socio eliminado correctamente",
             obj: object
           })).catch(ex => res.status(500).json({
-            message: "Could not delete Member correctly",
+            message: "No se pudo eliminar el socio correctamente",
             obj: ex
           }));
 }
 
-module.exports = {
-    create,
-    list,
-    index,
-    replace,
-    update,
-    destroy
-}
+module.exports = {create, list, index, replace, update, destroy}

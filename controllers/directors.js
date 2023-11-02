@@ -1,7 +1,6 @@
 const express = require('express');
 const Director = require('../models/director');
 
-//post
 function create(req, res, next) {
     const name = req.body.name;
     const lastName = req.body.lastName;
@@ -13,51 +12,45 @@ function create(req, res, next) {
 
     director.save()
             .then(object => res.status(200).json({
-                message: "New Director created and saved",
+                message: "Nuevo director creado y guardado",
                 obj: object
             })).catch(ex => res.status(500).json({
-                message: "Director could not be created or saved",
+                message: "No se pudo crear ni guardar el director",
                 obj: ex
             }));
 }
 
-//get
 function list(req, res, next) {
-    // Se usa page porque se usara paginacion, para mostrar poco a poco los elementos, o sea por paginas
     let page = req.params.page ? req.params.page : 1;
 
     const options = {
         page: page,
-        limit: 5 // Limite de objetos por pagina
+        limit: 5 // Objetos por pagina
     };
 
-    // El parametro {} se usa para los criterios de busqueda, es decir para seleccionar documentos de la coleccion, en este caso se
-    // estan buscando todos los documentos sin ningun filtro especifico, y el siguiente parametro "options" son las opciones
-    // para personalizar la paginacion
     Director.paginate({}, options)
             .then(objects => res.status(200).json({
-                message: "Directors list",
+                message: "Lista de directores",
                 obj: objects
             })).catch(ex => res.status(500).json({
-                message: "Directors list could not be showed",
+                message: "No se pudo mostrar la lista de directores",
                 obj: ex
             }));
 } 
 
-//get
 function index(req, res, next) {
     const id = req.params.id;
 
     Director.findOne({ "_id" : id })
             .then(object => res.status(200).json({
-                message: `Information of the Director with id ${id}`,
+                message: `Datos del director con el id ${id}`,
                 obj: object
             })).catch(ex => res.status(500).json({
-                message: `Could not show the information of the Director with id ${id}`
+                message: `No se pudo mostrar la información del Director con el id ${id}`,
+                obj: ex
             }));
 }
 
-//put
 function replace(req, res, next) {
     const id = req.params.id;
     const name = req.body.name ? req.body.name : "";
@@ -68,20 +61,16 @@ function replace(req, res, next) {
         _lastName: lastName
     });
 
-    // En findOneAndUpdate, el ultimo parametro de new significa que se regresa la lista el metodo devolvera el documento
-    // actualizado despues de hacer la actualizacion, si se establece en false entonces o se omite, devuleve el documento antes
-    // de actualizarlo
     Director.findOneAndUpdate({ "_id" : id }, director, { new : true })
             .then(object => res.status(200).json({
-                message: "Director replaced correctly",
+                message: "Director reemplazado correctamente",
                 obj: object
             })).catch(ex => res.status(500).json({
-                message: "Could not replace Director correctly",
+                message: "No se pudo reemplazar al director correctamente",
                 obj: ex
             }));
 }
 
-//patch
 function update(req, res, next) {
     const id = req.params.id;
     const name = req.body.name;
@@ -92,37 +81,27 @@ function update(req, res, next) {
     if(name) director._name = name;
     if(lastName) director._lastName = lastName;
 
-    // En este caso no se usa new ya que update usa el metodo patch, por lo que solo se cambian atributos especificos de un objeto
-    // y no todo el objeto en si como put, entonces no es necesario devolver el recuros completo, con un mensaje es suficiente
     Director.findOneAndUpdate({ "_id" : id }, director)
             .then(object => res.status(200).json({
-                message: "Director updated correctly",
+                message: "Director actualizado correctamente",
                 obj: object
             })).catch(ex => res.status(500).json({
-                message: "Could not update Director correctly",
+                message: "No se pudo actualizar director correctamente",
                 obj: ex
             }));
 }
 
-//delete
 function destroy(req, res, next) {
     const id = req.params.id;
 
     Director.findByIdAndRemove({ "_id" : id })
             .then(object => res.status(200).json({
-                message: "Director deleted correctly",
+                message: "Director eliminado correctamente",
                 obj: object
             })).catch(ex => res.status(500).json({
-                message: "Could not delete Director correctly",
+                message: "No se pudo eliminar al director correctamente",
                 obj: ex
             }));
 }
 
-module.exports = {
-    create,
-    list,
-    index,
-    replace,
-    update,
-    destroy
-}
+module.exports = {create, list, index, replace, update, destroy}

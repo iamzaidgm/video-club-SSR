@@ -2,7 +2,6 @@ const express = require('express');
 const Copy = require('../models/copy');
 const Movie = require('../models/movie');
 
-//post
 function create(req, res, next) {
     const number = req.body.number;
     const format = req.body.format;
@@ -20,15 +19,14 @@ function create(req, res, next) {
 
     copy.save()
         .then(object => res.status(200).json({
-            message: "New Copy created and saved",
+            message: "Nueva copia creada y guardada",
             obj: object
         })).catch(ex => res.status(500).json({
-            message: "Copy could not be created or saved",
+            message: "No se pudo crear ni guardar la copia",
             obj: ex
         }));
 }
 
-//get
 function list(req, res, next) {
     let page = req.params.page ? req.params.page : "";
 
@@ -39,29 +37,27 @@ function list(req, res, next) {
 
     Copy.paginate({}, options)
         .then(objects => res.status(200).json({
-            message: "Copies list",
+            message: "Lista de copias",
             obj: objects
         })).catch(ex => res.status(500).json({
-            message: "Copies could not be showed",
+            message: "No se pudieron mostrar las copias.",
             obj: ex
         }));
 }
 
-//get
 function index(req, res, next) {
     const id = req.params.id;
 
     Copy.findOne({ "_id" : id })
         .then(object => res.status(200).json({
-            message: `Information of the Copy with id ${id}`,
+            message: `Información de la copia con el id ${id}`,
             obj: object
         })).catch(ex => res.status(500).json({
-            message: `Could not show the information of the Copy with id ${id}`,
+            message: `No se pudo mostrar la información de la copia con el id.${id}`,
             obj: ex
         }));
 }
 
-//put
 function replace(req, res, next) {
     const id = req.params.id;
 
@@ -87,15 +83,14 @@ function replace(req, res, next) {
 
     Copy.findOneAndUpdate({ "_id" : id }, copy, { new : true })
         .then(object => res.status(200).json({
-            message: "Copy replaced correctly",
+            message: "Copia reemplazada correctamente",
             obj: object
         })).catch(ex => res.status(500).json({
-            message: "Could not replace Copy correctly",
+            message: "No se pudo reemplazar la copia correctamente",
             obj: ex
         }));
 }
 
-//patch
 function update(req, res, next) {
     const id = req.params.id;
 
@@ -118,10 +113,10 @@ function update(req, res, next) {
 
     Copy.findOneAndUpdate({ "_id" : id }, copy)
         .then(object => res.status(200).json({
-            message: "Copy updated correctly",
+            message: "Copia actualizada correctamente",
             obj: object
         })).catch(ex => res.status(500).json({
-            message: "Could not update Copy correctly",
+            message: "No se pudo actualizar la copia correctamente",
             obj: ex
         }));
 }
@@ -131,19 +126,12 @@ function destroy(req, res, next) {
 
     Copy.findOneAndRemove({ "_id" : id })
         .then(object => res.status(200).json({
-            message: "Copy deleted correctly",
+            message: "Copia eliminada correctamente",
             obj: object
         })).catch(ex => res.status(500).json({
-            message: "Could not delete Copy correctly",
+            message: "No se pudo eliminar la copia correctamente",
             obj: ex
         }));
 }
 
-module.exports = {
-    create,
-    list,
-    index,
-    replace,
-    update,
-    destroy
-}
+module.exports = {create, list, index, replace, update, destroy}

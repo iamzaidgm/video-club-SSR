@@ -2,7 +2,6 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
-//post
 async function create(req, res, next) {
     const name = req.body.name;
     const lastName = req.body.lastName;
@@ -22,15 +21,15 @@ async function create(req, res, next) {
 
     user.save()
         .then(object => res.status(200).json({
-            message: "New User created and saved",
+            message: "Nuevo usuario creado y guardado",
             obj: object
         })).catch(ex => res.status(500).json({
-            message: "User could not be created or saved",
+            message: "No se pudo crear ni guardar el usuario",
             obj: ex
         }));
 }
 
-//get
+
 function list(req, res, next) {
     let page = req.params.page ? req.params.page : 1;
 
@@ -41,10 +40,10 @@ function list(req, res, next) {
 
     User.paginate({}, options)
         .then(objects => res.status(200).json({
-            message: "Users list",
+            message: "Lista de usuarios",
             obj: objects
         })).catch(ex => res.status(500).json({
-            message: "Users list could not be showed",
+            message: "No se pudo mostrar la lista de usuarios",
             obj: ex
         }));
 }
@@ -55,15 +54,14 @@ function index(req, res, next) {
 
     User.findOneAndUpdate({ "_id" : id })
         .then(object => res.status(200).json({
-            message: `Information of the User with the id ${id}`,
+            message: `Información del usuario con el id ${id}`,
             obj: object
         })).catch(ex => res.status(500).json({
-            message: `Could not show the information of the User with id ${id}`,
+            message: `No se pudo mostrar la información del usuario con el id ${id}`,
             obj: ex
         }));
 }
 
-//put
 function replace(req, res, next) {
     const id = req.params.id;
 
@@ -81,15 +79,14 @@ function replace(req, res, next) {
 
     User.findOneAndUpdate({ "_id" : id }, user, { new : true })
         .then(object => res.status(200).json({
-            message: "User replaced correctly",
+            message: "Usuario reemplazado correctamente",
             obj: object
         })).catch(ex => res.status(500).json({
-            message: "Could not replace User correctly",
+            message: "No se pudo reemplazar el usuario correctamente",
             obj: ex
         }));
 }
 
-//patch
 function update(req, res, next) {
     const id = req.params.id;
 
@@ -107,33 +104,25 @@ function update(req, res, next) {
 
     User.findOneAndUpdate({ "_id" : id}, user)
         .then(object => res.status(200).json({
-            message: "User updated correctly",
+            message: "Usuario actualizado correctamente",
             obj: object
         })).catch(ex => res.status(500).json({
-            message: "Could not update User correctly",
+            message: "No se pudo actualizar el usuario correctamente",
             obj: ex
         }));
 }
 
-//delete
 function destroy(req, res, next) {
     const id = req.params.id;
 
     User.findOneAndRemove({ "_id" : id })
         .then(object => res.status(200).json({
-            message: "User deleted correctly",
+            message: "Usuario eliminado correctamente",
             obj: object
         })).catch(ex => res.status(500).json({
-            message: "Could not delete User correctly",
+            message: "No se pudo eliminar el usuario correctamente",
             obj: ex
         }));
 }
 
-module.exports = {
-    create,
-    list,
-    index,
-    replace,
-    update,
-    destroy
-}
+module.exports = {create, list, index, replace, update, destroy}

@@ -1,7 +1,6 @@
 const express = require('express');
 const Actor = require('../models/actor');
 
-//post
 function create(req, res, next) {
     const name = req.body.name;
     const lastName = req.body.lastName;
@@ -13,15 +12,14 @@ function create(req, res, next) {
 
     actor.save()
             .then(object => res.status(200).json({
-                message: "New Actor created and saved",
+                message: "Nuevo actor creado y guardado",
                 obj: object
             })).catch(ex => res.status(500).json({
-                massage: "Actor could not be created or saved",
+                massage: "No se pudo crear ni guardar el actor",
                 obj: ex
             }));
 }
 
-//get
 function list(req, res, next) {
     let page = req.params.page ? req.params.page : 1;
 
@@ -32,10 +30,10 @@ function list(req, res, next) {
 
     Actor.paginate({}, options)
             .then(objects => res.status(200).json({
-                message: "Actors list",
+                message: "Lista de actores",
                 obj: objects
             })).catch(ex => res.status(500).json({
-                message: "Actors list could not be showed",
+                message: "No se pudo mostrar la lista de actores",
                 obj: ex
             }));
 }
@@ -45,15 +43,14 @@ function index(req, res, next) {
   
     Actor.findOne({ "_id" : id })
            .then(object => res.status(200).json({
-              message: `Information of the Actor with id ${id}`,
+              message: `Información del Actor con el id ${id}`,
               obj: object
            })).catch(ex => res.status(500).json({
-              message: `Could not show the information of the Actor with id ${id}`,
+              message: `No se pudo mostrar la información del Actor con el id. ${id}`,
              obj: ex
            }));
 }
 
-//put
 function replace(req, res, next) {
     const id = req.params.id;
 
@@ -67,15 +64,14 @@ function replace(req, res, next) {
     
     Actor.findOneAndUpdate({ "_id" : id }, actor, { new : true })
             .then(object => res.status(200).json({
-                message: "Actor replaced correctly",
+                message: "Actor reemplazado correctamente",
                 obj: object
             })).catch(ex => res.status(500).json({
-                message: "Could not replace Actor correctly",
+                message: "No se pudo reemplazar al actor correctamente",
                 obj: ex
             }));
 }
 
-//patch
 function update(req, res, next) {
     const id = req.params.id;
     
@@ -89,33 +85,25 @@ function update(req, res, next) {
   
     Actor.findOneAndUpdate({ "_id" : id })
             .then(object => res.status(200).json({
-                message: "Actor updated correctly",
+                message: "Actor actualizado correctamente",
                 obj: object
             })).catch(ex => res.status(500).json({
-                message: "Could not update Actor correctly",
+                message: "No se pudo actualizar Actor correctamente",
                 obj: ex
             }));
 }
 
-//delete
 function destroy(req, res, next) {
     const id = req.params.id;
 
     Actor.findByIdAndRemove({ "_id" : id })
             .then(object => res.status(200).json({
-                message: "Actor deleted correctly",
+                message: "Actor eliminado correctamente",
                 obj: object
             })).catch(ex => res.status(500).json({
-                message: "Could not delete Actor correctly",
+                message: "No se pudo eliminar el actor correctamente",
                 obj: ex
             }));
 }
 
-module.exports = {
-    create,
-    list,
-    index,
-    replace,
-    update,
-    destroy
-}
+module.exports = { create, list, index, replace, update, destroy}

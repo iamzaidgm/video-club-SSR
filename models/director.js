@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
-// Schema es la estructura de la coleccion en la base de datos
-// Se pone guion base en el nombre de las propiedades para escodnerlas y ademas que encaje con la clase
 const schema = mongoose.Schema({
     _name: String,
     _lastName: String

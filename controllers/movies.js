@@ -18,10 +18,10 @@ function create(req, res, next) {
 
     movie.save()
          .then(object => res.status(200).json({
-            message: "New movie created and saved",
+            message: "Nueva película creada y guardada",
             obj: object
          })).catch(ex => res.status(500).json({
-            message: "Movie could not be created or saved",
+            message: "La película no se pudo crear ni guardar",
             obj: ex
          }));
 }
@@ -37,10 +37,10 @@ function list(req, res, next) {
 
     Movie.paginate({}, options)
          .then(objects => res.status(200).json({
-            message: "Movies list",
+            message: "Lista de películas",
             obj: objects
          })).catch(ex => res.status(500).json({
-            message: "Movies list could not be showed",
+            message: "No se pudo mostrar la lista de películas.",
             obj: ex
          }));
 }
@@ -50,10 +50,10 @@ function index(req, res, next) {
 
     Movie.findOne({ "_id" : id }).populate(["_director", "_genre", "_cast"])
         .then(object => res.status(200).json({
-            message: `Information of the Movie with id ${id}`,
+            message: `Información de la Película con el id ${id}`,
             obj: object
         })).catch(ex => res.status(500).json({
-            message: `Could not show the information of the Movie with id ${id}`,
+            message: `No se pudo mostrar la información de la Película con el id ${id}`,
             obj: ex
         }));
 }
@@ -88,10 +88,10 @@ function replace(req, res, next) {
 
     Movie.findOneAndUpdate({ "_id" : id }, movie, { new : true })
          .then(object => res.status(200).json({
-            message: "Movie replaced correctly",
+            message: "Película reemplazada correctamente",
             obj: object
          })).catch(ex => res.status(500).json({
-            message: "Could not replaced Movie correctly",
+            message: "No se pudo reemplazar la película correctamente",
             obj: ex
          }));
 }
@@ -125,10 +125,10 @@ function update(req, res, next) {
 
     Movie.findOneAndUpdate({ "_id" : id }, movie)
          .then(object => res.status(200).json({
-            message: "Movie updated correctly",
+            message: "Película actualizada correctamente.",
             obj: object
          })).catch(ex => res.status(500).json({
-            message: "Could not update Movie correctly",
+            message: "No se pudo actualizar la película correctamente",
             obj: ex
          }));
 }
@@ -138,18 +138,12 @@ function destroy(req, res, next) {
 
     Movie.findOneAndRemove({ "_id" : id })
          .then(object => res.status(200).json({
-            message: "Movie deleted correctly",
+            message: "Película eliminada correctamente",
             obj: object
          })).catch(ex => res.status(500).json({
-            message: "Could not delete Movie correctly"
+            message: "No se pudo eliminar la película correctamente",
+            obj: ex
          }));
 }
 
-module.exports = {
-    create,
-    list,
-    index,
-    replace,
-    update,
-    destroy
-}
+module.exports = {create, list, index, replace, update, destroy}
