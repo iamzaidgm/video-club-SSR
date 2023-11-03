@@ -11,6 +11,7 @@ function login(req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
     const JwtKey = "ebc68964cfb0bba955af97edbba18468";
+    
     user.findOne({"_email":email}).then(user => {
         if(user){
             bcrypt.hash(password, user.salt, (err, hash)=>{
