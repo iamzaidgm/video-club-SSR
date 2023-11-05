@@ -17,6 +17,7 @@ const genresRouter = require('./routes/genres');
 const membersRouter = require('./routes/members');
 const copiesRouter = require('./routes/copies');
 const awaitListsRouter = require('./routes/AwaitLists');
+const bookingRouter = require('./routes/bookings');
 
 var app = express();
 //  mongodb://<dbUser>?:<dbPass>?@<url>:zport>/<dbName>
@@ -56,6 +57,7 @@ app.use('/genres', genresRouter);
 app.use('/members', membersRouter);
 app.use('/copies', copiesRouter);
 app.use('/awaitLists', awaitListsRouter);
+app.use('/bookings', bookingRouter);
 
 // catch 404 
 app.use(function(req, res, next) {
