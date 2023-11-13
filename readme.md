@@ -18,7 +18,7 @@ Para que instalarlo en tu computadora, puedes clonar el repositorio así:
 
 Puedes ver el funcionamiento de la aplicación ya ejecutada en el este link:
 
-- 
+- https://videoclubodm-jd1617f8.b4a.run/ 
 
 # Autor
 
