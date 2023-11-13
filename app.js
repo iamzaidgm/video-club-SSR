@@ -4,9 +4,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const config = require('config');
 const { expressjwt } = require('express-jwt');
 
-const JwtKey = "ebc68964cfb0bba955af97edbba18468";
+const JwtKey = config.get("secret.key");
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -16,12 +17,12 @@ const actorsRouter = require('./routes/actors');
 const genresRouter = require('./routes/genres');
 const membersRouter = require('./routes/members');
 const copiesRouter = require('./routes/copies');
-const awaitListsRouter = require('./routes/AwaitLists');
+const awaitListsRouter = require('./routes/awaitLists');
 const bookingRouter = require('./routes/bookings');
 
 var app = express();
 //  mongodb://<dbUser>?:<dbPass>?@<url>:zport>/<dbName>
-const url = "mongodb://localhost:27017/video-club";
+const url = "mongodb://mongo:H2g-GhAbBA53C3bE5BecgA1ffFGD4Bca@roundhouse.proxy.rlwy.net:18499";
 mongoose.connect(url);
 
 const db = mongoose.connection;
