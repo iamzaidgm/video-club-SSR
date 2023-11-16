@@ -19,18 +19,18 @@ function login(req, res, next) {
                 if(err){
                     // regresar 403
                     res.status(403).json({
-                        msg: "usuario y/o contraseña incorrecta",
+                        msg: res.__('login.wrong'),
                         obj: err
                     });
                 }
                 if(hash === user.password){
                     res.status(200).json({
-                        msg: "login ok",
+                        msg: res.__('login.ok'),
                         obj: jwt.sign({data:user.data, exp: Math.floor(Date.now()/1000)+180}, JwtKey)
                     });
                 }else{
                     res.status(403).json({
-                        msg: "usuario y/o contraseña incorrecta",
+                        msg: res.__('login.wrong'),
                         obj: null
                     });
                 }
@@ -38,12 +38,12 @@ function login(req, res, next) {
         }else {
             // regresar 403
             res.status(403).json({
-                msg: "usuario y/o contraseña incorrecta",
+                msg: res.__('login.wrong'),
                 obj: err
             });
         }
     }).catch(ex => res.status(403).json({
-        msg: "usuario y/o contraseña incorrecta",
+        msg: res.__('login.wrong'),
         obj: err
     }));;
 

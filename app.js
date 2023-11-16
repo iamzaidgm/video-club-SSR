@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const config = require('config');
+const i18n = require('i18n');
 const { expressjwt } = require('express-jwt');
 
 const JwtKey = config.get("secret.key");
@@ -22,7 +23,7 @@ const bookingRouter = require('./routes/bookings');
 
 var app = express();
 //  mongodb://<dbUser>?:<dbPass>?@<url>:zport>/<dbName>
-const url = "mongodb://mongo:H2g-GhAbBA53C3bE5BecgA1ffFGD4Bca@roundhouse.proxy.rlwy.net:18499";
+const url = "mongodb://localhost:27017/video-club";
 mongoose.connect(url);
 
 const db = mongoose.connection;
@@ -37,6 +38,12 @@ db.on('error', () => {
   console.log("Connection Failed");
 })
 
+i18n.configure({
+  locales: ['es', 'en'],
+  cookie:'language',
+  directory:`${__dirname}/locales`
+});
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -45,7 +52,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(i18n.init);
 app.use(expressjwt({secret:JwtKey, algorithms:['HS256']})
   .unless({path:["/login/"]}));
 

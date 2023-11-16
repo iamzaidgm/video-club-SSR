@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 90
 
-CMD PORT=90 DATABASE_URL=mongodb://mongo:H2g-GhAbBA53C3bE5BecgA1ffFGD4Bca@roundhouse.proxy.rlwy.net:18499 npm start
+CMD PORT=90 DATABASE_URL=mongodb:mongodb://localhost:27017/video-club npm start
